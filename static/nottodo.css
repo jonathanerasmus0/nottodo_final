@@ -1,0 +1,91 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: #0079bf;
+    color: white;
+}
+
+.navbar a.navbar-brand, .navbar a.nav-link {
+    color: white !important;
+}
+
+.container-fluid {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #eceff1;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #ddd;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.footer {
+    background-color: #0079bf;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.form-frame {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: #0079bf;
+    border-color: #0079bf;
+}
+
+.btn-primary:hover {
+    background-color: #005f8a;
+    border-color: #005f8a;
+}
+
+/* Additional styles to move the form content up */
+.mt-4 {
+    margin-top: 2rem !important; /* Adjust this value as needed */
+}
+
+.mt-3 {
+    margin-top: 1rem !important; /* Adjust this value as needed */
+}
+
+.row.justify-content-center {
+    margin-top: -50px; /* Move the form up */
+}

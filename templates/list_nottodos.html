@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}My Not To Dos{% endblock %}
+
+{% block content %}
+<h2 class="mt-4">My Not To Dos</h2>
+<a href="{% url 'add_nottodo' %}" class="btn btn-primary mb-3">Add Not To Do</a>
+
+<div id="calendar" class="mb-4"></div>
+
+<div class="card-deck">
+    {% for nottodo in nottodos %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ nottodo.title }}</h5>
+            <p class="card-text">{{ nottodo.description }}</p>
+            <p class="card-text"><small class="text-muted">{{ nottodo.context }}</small></p>
+            <p class="card-text"><small class="text-muted">{{ nottodo.scheduled_start_time|date:"D, d M Y H:i" }} - {{ nottodo.scheduled_end_time|date:"D, d M Y H:i" }}</small></p>
+            <p class="card-text"><small class="text-muted">{{ nottodo.get_repeat_display }}</small></p>
+            <a href="{% url 'update_nottodo' nottodo.pk %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'delete_nottodo' nottodo.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            <a href="{% url 'share_nottodo' nottodo.pk %}" class="btn btn-primary btn-sm">Share</a>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No Not To Dos found.</p>
+    {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: '/nottodos/events/',  // URL to fetch events
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      editable: true,
+      selectable: true
+    });
+    calendar.render();
+  });
+</script>
+
+{% endblock %}
