@@ -30,18 +30,55 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+    var calendar = $('#calendar').fullCalendar({
       events: '/nottodos/events/',  // URL to fetch events
-      headerToolbar: {
+      header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'month,agendaWeek,agendaDay'
       },
       editable: true,
-      selectable: true
+      selectable: true,
+      viewRender: function(view) {
+        var month = view.intervalStart.month();
+        var calendarEl = document.getElementById('calendar');
+        calendarEl.classList.remove('calendar-winter', 'calendar-spring', 'calendar-summer', 'calendar-autumn');
+
+        if (month == 11 || month == 0 || month == 1) {
+          calendarEl.classList.add('calendar-winter');
+        } else if (month >= 2 && month <= 4) {
+          calendarEl.classList.add('calendar-spring');
+        } else if (month >= 5 && month <= 7) {
+          calendarEl.classList.add('calendar-summer');
+        } else if (month >= 8 && month <= 10) {
+          calendarEl.classList.add('calendar-autumn');
+        }
+
+        fetchHolidays(view.start, view.end);
+      }
     });
-    calendar.render();
+
+    function fetchHolidays(start, end) {
+      var apiKey = 'a33b30f7-3cba-400c-864b-5676f9654887';
+      var country = 'DE';  // Change to your country code if needed
+      var startDate = start.format('YYYY-MM-DD');
+      var endDate = end.format('YYYY-MM-DD');
+      var url = `https://holidayapi.com/v1/holidays?key=${apiKey}&country=${country}&year=${start.year()}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          var holidays = data.holidays.map(holiday => ({
+            title: holiday.name,
+            start: holiday.date,
+            backgroundColor: 'red',  // Custom color for holidays
+            borderColor: 'red',
+            textColor: 'white'
+          }));
+          $('#calendar').fullCalendar('addEventSource', holidays);
+        })
+        .catch(error => console.error('Error fetching holidays:', error));
+    }
   });
 </script>
 

@@ -48,6 +48,7 @@ body {
     margin: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border-radius: 8px;
+    overflow-y: auto; /* Make main content scrollable */
 }
 
 .footer {
@@ -88,4 +89,46 @@ body {
 
 .row.justify-content-center {
     margin-top: -50px; /* Move the form up */
+}
+
+/* Styles for FullCalendar */
+#calendar {
+    max-width: 600px; /* Reduce the width */
+    height: 500px;    /* Reduce the height */
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 999; /* Ensure it stays above other elements */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.8;
+    color: #000;  /* Make text black for better contrast */
+    font-weight: bold;  /* Make text bold for better readability */
+}
+
+.calendar-winter {
+    background-image: url('/static/pics/winter.jpg'); 
+}
+
+.calendar-spring {
+    background-image: url('/static/pics/spring.jpg');
+}
+
+.calendar-summer {
+    background-image: url('/static/pics/summer.jpg'); 
+}
+
+.calendar-autumn {
+    background-image: url('/static/pics/autumn.jpg'); 
+}
+
+/* Ensure the events text in the calendar is bold and dark */
+.fc-event, .fc-event-dot {
+    background-color: #000 !important;
+    color: #fff !important;
+    font-weight: bold !important;
 }

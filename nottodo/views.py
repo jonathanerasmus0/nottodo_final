@@ -169,4 +169,3 @@ def nottodo_events(request):
             'id': nottodo.id,
         })
     return JsonResponse(events, safe=False)
-
