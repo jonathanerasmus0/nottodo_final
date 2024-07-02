@@ -4,6 +4,7 @@ This application was developed as a final project during a one year Python Cours
 - [DCI - Digital Career Institute ](https://digitalcareerinstitute.org/).
 
 
+
 - Asmaa Shehata https://github.com/AsmaaShehata88,
 
 - Esther Madianga    https://github.com/Estherkarl,
@@ -12,4 +13,3 @@ This application was developed as a final project during a one year Python Cours
 
 - Pawel Suchocki  https://github.com/suchockipawel
 
-Iam Here trying / Asmaa
