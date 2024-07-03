@@ -11,6 +11,7 @@ ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = '/profile/'
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
