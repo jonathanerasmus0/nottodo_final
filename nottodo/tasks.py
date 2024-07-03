@@ -4,7 +4,7 @@ from django.utils import timezone
 from .models import NotToDo
 
 def send_nottodo_notifications():
-    now = timezone.now() + timezone.timedelta(minutes=30)
+    now = timezone.now() + timezone.timedelta(minutes=10)
     nottodos = NotToDo.objects.filter(scheduled_time__lte=now, scheduled_time__gte=timezone.now())
     for nottodo in nottodos:
         send_mail(
