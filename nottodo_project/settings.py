@@ -99,7 +99,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+'''EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # you must update your own email SMTP
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True  
+EMAIL_HOST_USER = 'your_email@example.com'  # Your email address as created as a superuser
+EMAIL_HOST_PASSWORD = 'your_password'  
+DEFAULT_FROM_EMAIL = 'your_email@example.com'''
 
 
