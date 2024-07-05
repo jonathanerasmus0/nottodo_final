@@ -11,6 +11,7 @@ ALLOWED_HOSTS = []
 LOGIN_REDIRECT_URL = '/profile/'
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,14 +63,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nottodo_project.wsgi.application'
 
+# Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nottodo',
-        'USER': 'postgres',
-        'PASSWORD': 'mamo',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -100,7 +98,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'  # you must update your own email SMTP
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True  
+EMAIL_HOST_USER = 'joesaudi@hotmail.com'  # Your email address as created as a superuser
+EMAIL_HOST_PASSWORD = 'Lancaster017!'  
+DEFAULT_FROM_EMAIL = 'joesaudi@hotmail.com.com'
 
 

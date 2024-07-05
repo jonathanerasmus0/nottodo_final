@@ -8,9 +8,9 @@
 
 <div id="calendar" class="mb-4"></div>
 
-<div class="card-deck">
+<div class="card-list">
     {% for nottodo in nottodos %}
-    <div class="card mb-3">
+    <div class="card nottodo-card mb-3">
         <div class="card-body">
             <h5 class="card-title">{{ nottodo.title }}</h5>
             <p class="card-text">{{ nottodo.description }}</p>
@@ -23,7 +23,7 @@
         </div>
     </div>
     {% empty %}
-    <p class="text-center">No Not To Dos found.</p>
+    <p>No Not To Dos found.</p>
     {% endfor %}
 </div>
 

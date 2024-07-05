@@ -11,8 +11,9 @@ from .models import NotToDo
 
 @login_required
 def list_nottodos(request):
-    nottodos = NotToDo.objects.filter(user=request.user)
+    nottodos = NotToDo.objects.filter(user=request.user).order_by('scheduled_start_time')
     return render(request, 'list_nottodos.html', {'nottodos': nottodos})
+
 
 @login_required
 def add_nottodo(request):
@@ -137,18 +138,30 @@ def view_nottodo(request, pk):
     nottodo = NotToDo.objects.get(pk=pk, user=request.user)
     return render(request, 'view_nottodo.html', {'nottodo': nottodo})
 
+from django.core.exceptions import ObjectDoesNotExist
+
 @login_required
 def copy_nottodo(request, pk):
-    original_nottodo = NotToDo.objects.get(pk=pk, user=request.user)
+    try:
+        original_nottodo = NotToDo.objects.get(pk=pk, user=request.user)
+    except NotToDo.DoesNotExist:
+        try:
+            shared_nottodo = SharedNotToDo.objects.get(nottodo__pk=pk, shared_with=request.user)
+            original_nottodo = shared_nottodo.nottodo
+        except SharedNotToDo.DoesNotExist:
+            return render(request, 'error.html', {'message': 'The Not To Do item you are trying to copy does not exist.'})
+    
     copied_nottodo = NotToDo.objects.create(
         user=request.user,
         title=original_nottodo.title,
         description=original_nottodo.description,
         context=original_nottodo.context,
-        scheduled_time=original_nottodo.scheduled_time,
+        scheduled_start_time=original_nottodo.scheduled_start_time,
+        scheduled_end_time=original_nottodo.scheduled_end_time,
         repeat=original_nottodo.repeat,
     )
     return redirect('list_nottodos')
+
 
 @login_required
 def unshare_nottodo(request, pk):

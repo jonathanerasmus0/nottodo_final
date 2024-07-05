@@ -132,3 +132,14 @@ body {
     color: #fff !important;
     font-weight: bold !important;
 }
+
+.card-list {
+    display: block;
+    width: calc(100% - 650px); /* Adjust width to not overlap the calendar */
+    margin-right: 650px; /* Ensure there's space for the calendar */
+}
+
+.card.nottodo-card {
+    width: 100%; /* Ensure the cards use the full width of the card list */
+    margin-bottom: 1rem; /* Add margin between cards */
+}
