@@ -63,13 +63,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nottodo_project.wsgi.application'
 
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -98,12 +98,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.office365.com'  # you must update your own email SMTP
-EMAIL_PORT = 587  
-EMAIL_USE_TLS = True  
-EMAIL_HOST_USER = 'joesaudi@hotmail.com'  # Your email address as created as a superuser
-EMAIL_HOST_PASSWORD = 'Lancaster017!'  
-DEFAULT_FROM_EMAIL = 'joesaudi@hotmail.com.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 
