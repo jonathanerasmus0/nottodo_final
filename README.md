@@ -1,6 +1,6 @@
 # Authors
 
-This application was developed as a final project during a one year Python Course in 2024 by 
+This application was developed as a final project during a one year Python Course in 2024  by 
 - [DCI - Digital Career Institute ](https://digitalcareerinstitute.org/).
 
 
