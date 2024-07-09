@@ -13,3 +13,4 @@ This application was developed as a final project during a one year Python Cours
 
 - Pawel Suchocki  https://github.com/suchockipawel
 
+Thank You
