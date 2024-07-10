@@ -1,5 +1,3 @@
-#  
-# test classes from Esther wit modifications
 from django.test import TestCase
 from django.utils import timezone
 from unittest.mock import patch
@@ -9,6 +7,51 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from datetime import datetime
 from django.utils.timezone import make_aware
+
+class NotToDoNotificationTestCase(TestCase):
+
+    def setUp(self):
+        # Set up a user for the NotToDo items
+        self.user = User.objects.create_user(username='testuser', email='testuser@example.com', password='testpassword')
+
+    def test_send_nottodo_notifications(self):
+        # Create NotToDo items, one within the notification window and one outside it
+        now = timezone.now()
+        nottodo_within_time = NotToDo.objects.create(
+            title='Task within time',
+            scheduled_start_time=now + timezone.timedelta(minutes=5),
+            user=self.user
+        )
+        nottodo_outside_time = NotToDo.objects.create(
+            title='Task outside time',
+            scheduled_start_time=now + timezone.timedelta(hours=1),
+            user=self.user
+        )
+
+        # Mock send_mail
+        with patch('nottodo.tasks.send_mail') as mock_send_mail:
+            send_nottodo_notifications()
+            
+            # Check that send_mail was called once
+            self.assertEqual(mock_send_mail.call_count, 1)
+
+            # Check the email details
+            mock_send_mail.assert_called_with(
+                'Not To Do Reminder',
+                f'Remember not to do: {nottodo_within_time.title}',
+                'joesaudi@hotmail.com',
+                [self.user.email],
+                fail_silently=False,
+            )
+
+            # Ensure no emails were sent to the out-of-time NotToDo
+            # Get all the calls made to the mock
+            calls = mock_send_mail.call_args_list
+            # Verify that none of the calls were made for the out-of-time NotToDo
+            for call in calls:
+                self.assertNotIn(nottodo_outside_time.title, call[0])
+
+#  test classes from Esther wit modifications
 class NotToDoTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='password')
@@ -64,6 +107,7 @@ class NotToDoTests(TestCase):
         self.assertEqual(response.status_code, 302)
         comment = Comment.objects.get(shared_nottodo=self.shared_nottodo, user=self.another_user)
         self.assertEqual(comment.text, 'Test comment')
+
     def test_copy_nottodo(self):
         self.client.force_login(self.user)
         response = self.client.post(reverse('copy_nottodo', kwargs={'pk': self.nottodo.pk}))
