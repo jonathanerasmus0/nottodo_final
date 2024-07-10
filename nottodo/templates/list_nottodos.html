@@ -6,6 +6,14 @@
 <h2 class="mt-4">My Not To Dos</h2>
 <a href="{% url 'add_nottodo' %}" class="btn btn-primary mb-3">Add Not To Do</a>
 
+<!-- Context Filter Buttons -->
+<div class="btn-group mb-3" role="group" aria-label="Filter by context">
+  <a href="{% url 'list_nottodos' %}?context=All" class="btn btn-secondary {% if context_filter == 'All' %}active{% endif %}">All</a>
+  <a href="{% url 'list_nottodos' %}?context=Home" class="btn btn-secondary {% if context_filter == 'Home' %}active{% endif %}">Home</a>
+  <a href="{% url 'list_nottodos' %}?context=Work" class="btn btn-secondary {% if context_filter == 'Work' %}active{% endif %}">Work</a>
+  <a href="{% url 'list_nottodos' %}?context=Other" class="btn btn-secondary {% if context_filter == 'Other' %}active{% endif %}">Other</a>
+</div>
+
 <div id="calendar" class="mb-4"></div>
 
 <div class="card-list">

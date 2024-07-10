@@ -11,9 +11,12 @@ from .models import NotToDo
 
 @login_required
 def list_nottodos(request):
-    nottodos = NotToDo.objects.filter(user=request.user).order_by('scheduled_start_time')
-    return render(request, 'list_nottodos.html', {'nottodos': nottodos})
-
+    context_filter = request.GET.get('context', 'All')
+    if context_filter == 'All':
+        nottodos = NotToDo.objects.filter(user=request.user).order_by('scheduled_start_time')
+    else:
+        nottodos = NotToDo.objects.filter(user=request.user, context=context_filter).order_by('scheduled_start_time')
+    return render(request, 'list_nottodos.html', {'nottodos': nottodos, 'context_filter': context_filter})
 
 @login_required
 def add_nottodo(request):
