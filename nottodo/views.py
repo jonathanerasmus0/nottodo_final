@@ -150,10 +150,9 @@ def copy_nottodo(request, pk):
             original_nottodo = shared_nottodo.nottodo
         except SharedNotToDo.DoesNotExist:
             return render(request, 'error.html', {'message': 'The Not To Do item you are trying to copy does not exist.'})
-    
     copied_nottodo = NotToDo.objects.create(
         user=request.user,
-        title=original_nottodo.title,
+        title=f"Copy of {original_nottodo.title}",
         description=original_nottodo.description,
         context=original_nottodo.context,
         scheduled_start_time=original_nottodo.scheduled_start_time,
