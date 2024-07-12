@@ -17,6 +17,7 @@ class NotToDo(models.Model):
         return self.title
 
 
+
 class SharedNotToDo(models.Model):
     nottodo = models.ForeignKey(NotToDo, on_delete=models.CASCADE, related_name='shared_nottodos')
     shared_with = models.ForeignKey(User, on_delete=models.CASCADE)

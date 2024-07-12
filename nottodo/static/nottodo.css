@@ -143,3 +143,31 @@ body {
     width: 100%; /* Ensure the cards use the full width of the card list */
     margin-bottom: 1rem; /* Add margin between cards */
 }
+
+.context-home {
+    background-color: green !important;
+    border-color: green !important;
+    color: white !important;
+  }
+  
+  .context-work {
+    background-color: red !important;
+    border-color: red !important;
+    color: white !important;
+  }
+  
+  .context-other {
+    background-color: yellow !important;
+    border-color: yellow !important;
+    color: black !important;
+  }
+  
+  
+  .fc-event {
+    margin-bottom: 5px !important; /* Add space between events */
+    font-size: 12px !important;    /* Adjust font size for better readability */
+    padding: 2px !important;       /* Add padding for better appearance */
+    overflow: hidden !important;   /* Ensure text does not overflow */
+    text-overflow: ellipsis !important; /* Handle text overflow with ellipsis */
+    white-space: nowrap !important; /* Prevent text from wrapping */
+}

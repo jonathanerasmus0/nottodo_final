@@ -1,3 +1,5 @@
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -176,15 +178,60 @@ def unshare_nottodo(request, pk):
 def nottodo_events(request):
     nottodos = NotToDo.objects.filter(user=request.user)
     events = []
+
     for nottodo in nottodos:
-        events.append({
-            'title': nottodo.title,
-            'start': nottodo.scheduled_start_time.isoformat(),
-            'end': nottodo.scheduled_end_time.isoformat() if nottodo.scheduled_end_time else None,
-            'description': nottodo.description,
-            'id': nottodo.id,
-        })
+        start = nottodo.scheduled_start_time
+        end = nottodo.scheduled_end_time
+
+        if nottodo.repeat == 'Daily':
+            current_start = start
+            while current_start <= end:
+                events.append({
+                    'title': nottodo.title,
+                    'start': current_start.isoformat(),
+                    'end': (current_start + timedelta(hours=1)).isoformat(),
+                    'description': nottodo.description,
+                    'id': nottodo.id,
+                    'context': nottodo.context,
+                })
+                current_start += timedelta(days=1)
+        elif nottodo.repeat == 'Weekly':
+            current_start = start
+            while current_start <= end:
+                events.append({
+                    'title': nottodo.title,
+                    'start': current_start.isoformat(),
+                    'end': (current_start + timedelta(hours=1)).isoformat(),
+                    'description': nottodo.description,
+                    'id': nottodo.id,
+                    'context': nottodo.context,
+                })
+                current_start += timedelta(weeks=1)
+        elif nottodo.repeat == 'Monthly':
+            current_start = start
+            while current_start <= end + relativedelta(years=1): 
+                events.append({
+                    'title': nottodo.title,
+                    'start': current_start.isoformat(),
+                    'end': (current_start + timedelta(hours=1)).isoformat(),
+                    'description': nottodo.description,
+                    'id': nottodo.id,
+                    'context': nottodo.context,
+                })
+                current_start += relativedelta(months=1)
+        else:
+            events.append({
+                'title': nottodo.title,
+                'start': start.isoformat(),
+                'end': end.isoformat() if end else None,
+                'description': nottodo.description,
+                'id': nottodo.id,
+                'context': nottodo.context,
+            })
+
     return JsonResponse(events, safe=False)
+
+
 
 @login_required
 def check_reminders(request):

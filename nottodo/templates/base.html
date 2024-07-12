@@ -10,12 +10,15 @@
     <link rel="stylesheet" href="{% static 'nottodo.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMlVWJp3hbZQ2eXr7uoi8jV1IZDRVAMl3IP96xV" crossorigin="anonymous">
 
-    <!-- Include jQuery -->
+    <!-- Include FullCalendar and jQuery -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <!-- Include FullCalendar -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale-all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
@@ -69,11 +72,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <!-- FullCalendar JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-
     <!-- Hidden messages container -->
     <div id="messages" style="display: none;">
         {% if messages %}
@@ -93,6 +91,28 @@
             alert(message);
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+          // Initialize flatpickr on the date and time input fields
+          flatpickr("#id_scheduled_start_time", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "F j, Y H:i",
+            time_24hr: true
+          });
+  
+          flatpickr("#id_scheduled_end_time", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "F j, Y H:i",
+            time_24hr: true
+          });
+        });
     </script>
+     
+        
+      
 </body>
 </html>

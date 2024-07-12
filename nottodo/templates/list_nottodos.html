@@ -6,6 +6,8 @@
 <h2 class="mt-4">My Not To Dos</h2>
 <a href="{% url 'add_nottodo' %}" class="btn btn-primary mb-3">Add Not To Do</a>
 
+
+
 <!-- Context Filter Buttons -->
 <div class="btn-group mb-3" role="group" aria-label="Filter by context">
   <a href="{% url 'list_nottodos' %}?context=All" class="btn btn-secondary {% if context_filter == 'All' %}active{% endif %}">All</a>
@@ -37,57 +39,92 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = $('#calendar').fullCalendar({
-      events: '/nottodos/events/',  
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-      editable: true,
-      selectable: true,
-      viewRender: function(view) {
-        var month = view.intervalStart.month();
-        var calendarEl = document.getElementById('calendar');
-        calendarEl.classList.remove('calendar-winter', 'calendar-spring', 'calendar-summer', 'calendar-autumn');
-
-        if (month == 11 || month == 0 || month == 1) {
-          calendarEl.classList.add('calendar-winter');
-        } else if (month >= 2 && month <= 4) {
-          calendarEl.classList.add('calendar-spring');
-        } else if (month >= 5 && month <= 7) {
-          calendarEl.classList.add('calendar-summer');
-        } else if (month >= 8 && month <= 10) {
-          calendarEl.classList.add('calendar-autumn');
-        }
-
-        fetchHolidays(view.start, view.end);
+      var calendarEl = document.getElementById('calendar');
+      $('#calendar').fullCalendar({
+          events: '/nottodos/events/',
+          header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+          },
+          editable: true,
+          selectable: true,
+          eventRender: function(event, element) {
+              // Add specific class based on event context
+              if (event.context === 'Home') {
+                  element.addClass('context-home');
+              } else if (event.context === 'Work') {
+                  element.addClass('context-work');
+              } else if (event.context === 'Other') {
+                  element.addClass('context-other');
+              }
+          },
+          viewRender: function(view) {
+              var month = view.intervalStart.month();
+              calendarEl.classList.remove('calendar-winter', 'calendar-spring', 'calendar-summer', 'calendar-autumn');
+  
+              if (month == 11 || month == 0 || month == 1) {
+                  calendarEl.classList.add('calendar-winter');
+              } else if (month >= 2 && month <= 4) {
+                  calendarEl.classList.add('calendar-spring');
+              } else if (month >= 5 && month <= 7) {
+                  calendarEl.classList.add('calendar-summer');
+              } else if (month >= 8 && month <= 10) {
+                  calendarEl.classList.add('calendar-autumn');
+              }
+  
+              fetchHolidays(view.start, view.end);
+          }
+      });
+  
+      function fetchHolidays(start, end) {
+          var apiKey = 'FWtjtjyrqUlLiNe0GVP98HFvz8SteefC';
+          var country = 'DE';
+          var year = start.year();  // Ensure the year is correctly extracted
+          var url = `https://calendarific.com/api/v2/holidays?api_key=${apiKey}&country=${country}&year=${year}`;
+  
+          fetch(url)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok ' + response.statusText);
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  if (data.response && data.response.holidays) {
+                      $('#calendar').fullCalendar('removeEvents', function(event) {
+                          return event.type === 'holiday';
+                      });
+  
+                      var holidays = data.response.holidays.map(holiday => ({
+                          title: holiday.name,
+                          start: holiday.date.iso,
+                          backgroundColor: 'red !important',
+                          borderColor: 'red !important',
+                          textColor: 'white !important',
+                          type: 'holiday'
+                      }));
+                      $('#calendar').fullCalendar('addEventSource', holidays);
+                  }
+              })
+              .catch(error => console.error('Error fetching holidays:', error));
       }
-    });
-
-    function fetchHolidays(start, end) {
-      var apiKey = 'a33b30f7-3cba-400c-864b-5676f9654887';
-      var country = 'DE';  // Change to your country code if needed YOU NEED TO ACCESS EXTENAL WEBSITE > IN PROGRESS JONATHAN UPDATE
-      var startDate = start.format('YYYY-MM-DD');
-      var endDate = end.format('YYYY-MM-DD');
-      var url = `https://holidayapi.com/v1/holidays?key=${apiKey}&country=${country}&year=${start.year()}`;
-
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          var holidays = data.holidays.map(holiday => ({
-            title: holiday.name,
-            start: holiday.date,
-            backgroundColor: 'red',  // Custom color for holidays
-            borderColor: 'red',
-            textColor: 'white'
-          }));
-          $('#calendar').fullCalendar('addEventSource', holidays);
-        })
-        .catch(error => console.error('Error fetching holidays:', error));
-    }
+  
+      fetch('/nottodos/events/')
+          .then(response => response.json())
+          .then(data => {
+              var userEvents = data.map(event => ({
+                  title: event.title,
+                  start: event.start,
+                  end: event.end,
+                  context: event.context,
+                  type: 'user_selected'
+              }));
+              $('#calendar').fullCalendar('addEventSource', userEvents);
+          })
+          .catch(error => console.error('Error fetching user-selected events:', error));
   });
-</script>
+  </script>
+  
 
 {% endblock %}
