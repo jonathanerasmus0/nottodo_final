@@ -103,3 +103,13 @@ git add .
 git commit -m "edit"
 git push heroku main
 ```
+
+CELERY INSTRUCTIONS 
+start the server redis-server
+Install globally if needed brew install redis(apple only)
+redis-ping
+brew service start redis
+
+celery worker and beat scheduler
+celery -A nottodo_project worker -l info
+celery -A nottodo_project beat -l info

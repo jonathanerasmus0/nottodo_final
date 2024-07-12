@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -7,7 +7,29 @@ from .forms import NotToDoForm, ShareNotToDoForm, CommentForm, CustomChangeEmail
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.http import JsonResponse
-from .models import NotToDo
+from django.utils import timezone
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
+
+@login_required
+def add_nottodo(request):
+    if request.method == 'POST':
+        form = NotToDoForm(request.POST)
+        if form.is_valid():
+            nottodo = form.save(commit=False)
+            nottodo.user = request.user
+            nottodo.save()
+
+            '''email'''
+
+            messages.success(request, 'Your NotToDo has been added and a reminder email will be sent to your registered email address.')
+            return redirect('list_nottodos')
+        else:
+            print("Form errors:", form.errors)
+    else:
+        form = NotToDoForm()
+    return render(request, 'add_nottodo.html', {'form': form})
 
 @login_required
 def list_nottodos(request):
@@ -19,24 +41,8 @@ def list_nottodos(request):
     return render(request, 'list_nottodos.html', {'nottodos': nottodos, 'context_filter': context_filter})
 
 @login_required
-def add_nottodo(request):
-    if request.method == 'POST':
-        form = NotToDoForm(request.POST)
-        if form.is_valid():
-            nottodo = form.save(commit=False)
-            nottodo.user = request.user
-            nottodo.save()
-            print("Saved:", nottodo)
-            return redirect('list_nottodos')
-        else:
-            print("Form errors:", form.errors)
-    else:
-        form = NotToDoForm()
-    return render(request, 'add_nottodo.html', {'form': form})
-
-@login_required
 def update_nottodo(request, pk):
-    nottodo = NotToDo.objects.get(pk=pk, user=request.user)
+    nottodo = get_object_or_404(NotToDo, pk=pk, user=request.user)
     if request.method == 'POST':
         form = NotToDoForm(request.POST, instance=nottodo)
         if form.is_valid():
@@ -48,7 +54,7 @@ def update_nottodo(request, pk):
 
 @login_required
 def delete_nottodo(request, pk):
-    nottodo = NotToDo.objects.get(pk=pk, user=request.user)
+    nottodo = get_object_or_404(NotToDo, pk=pk, user=request.user)
     if request.method == 'POST':
         nottodo.delete()
         return redirect('list_nottodos')
@@ -56,8 +62,7 @@ def delete_nottodo(request, pk):
 
 @login_required
 def share_nottodo(request, pk):
-    print("Rendering share_nottodo.html")
-    nottodo = NotToDo.objects.get(pk=pk, user=request.user)
+    nottodo = get_object_or_404(NotToDo, pk=pk, user=request.user)
     if request.method == 'POST':
         form = ShareNotToDoForm(request.POST)
         if form.is_valid():
@@ -88,10 +93,9 @@ def list_shared_nottodos(request):
     shared_nottodos = SharedNotToDo.objects.filter(shared_with=request.user).prefetch_related('comments')
     return render(request, 'list_shared_nottodos.html', {'shared_nottodos': shared_nottodos})
 
-
 @login_required
 def add_comment(request, shared_nottodo_id):
-    shared_nottodo = SharedNotToDo.objects.get(pk=shared_nottodo_id, shared_with=request.user)
+    shared_nottodo = get_object_or_404(SharedNotToDo, pk=shared_nottodo_id, shared_with=request.user)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -138,10 +142,8 @@ def profile(request):
 
 @login_required
 def view_nottodo(request, pk):
-    nottodo = NotToDo.objects.get(pk=pk, user=request.user)
+    nottodo = get_object_or_404(NotToDo, pk=pk, user=request.user)
     return render(request, 'view_nottodo.html', {'nottodo': nottodo})
-
-from django.core.exceptions import ObjectDoesNotExist
 
 @login_required
 def copy_nottodo(request, pk):
@@ -164,10 +166,9 @@ def copy_nottodo(request, pk):
     )
     return redirect('list_nottodos')
 
-
 @login_required
 def unshare_nottodo(request, pk):
-    shared_nottodo = SharedNotToDo.objects.get(pk=pk, shared_with=request.user)
+    shared_nottodo = get_object_or_404(SharedNotToDo, pk=pk, shared_with=request.user)
     shared_nottodo.delete()
     return redirect('list_shared_nottodos')
 
@@ -184,3 +185,9 @@ def nottodo_events(request):
             'id': nottodo.id,
         })
     return JsonResponse(events, safe=False)
+
+@login_required
+def check_reminders(request):
+    now = timezone.now()
+    has_reminders = NotToDo.objects.filter(user=request.user, scheduled_start_time__gt=now).exists()
+    return JsonResponse({'has_reminders': has_reminders})

@@ -12,9 +12,10 @@ urlpatterns = [
     path('nottodos/copy/<int:pk>/', views.copy_nottodo, name='copy_nottodo'),
     path('nottodos/unshare/<int:pk>/', views.unshare_nottodo, name='unshare_nottodo'),
     path('nottodos/<int:pk>/', views.view_nottodo, name='view_nottodo'),
-    path('nottodos/events/', views.nottodo_events, name='nottodo_events'), 
+    path('nottodos/events/', views.nottodo_events, name='nottodo_events'),
     path('change_email/', views.change_email, name='change_email'),
     path('change_password/', views.change_password, name='change_password'),
     path('profile/', views.profile, name='profile'),
     path('', views.home, name='home'),
+    path('check_reminders/', views.check_reminders, name='check_reminders'),
 ]
