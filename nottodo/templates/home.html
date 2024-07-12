@@ -9,4 +9,17 @@
         <p>This is your home page. Navigate using the menu above.</p>
     </div>
 </div>
+
+<script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/0.1.0-beta.4/libs/oversea/index.js"></script>
+<script>
+    new CozeWebSDK.WebChatClient({
+      config: {
+        bot_id: '7390779961479151622',
+      },
+      componentProps: {
+        title: 'Coze',
+      },
+    });
+</script>
+
 {% endblock %}
