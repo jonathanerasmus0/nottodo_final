@@ -113,3 +113,19 @@ brew service start redis
 celery worker and beat scheduler
 celery -A nottodo_project worker -l info
 celery -A nottodo_project beat -l info
+
+
+Part 1: Installing Redis on Ubuntu
+Step 1: Update System Packages
+Before installing Redis, it’s a good idea to update your package lists:
+
+sudo apt update
+Step 2: Install Redis
+Install Redis by running the following command:
+
+sudo apt install redis-server
+Step 3: Verify Redis Installation
+Once installed, you can check that Redis is running with:
+
+redis-cli ping
+If Redis is running, it will return a PONG response.
