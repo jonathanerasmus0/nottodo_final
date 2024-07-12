@@ -25,4 +25,4 @@ def get_reminder_times(nottodo):
 def send_reminder_email(user, nottodo):
     subject = f"Reminder: {nottodo.title}"
     message = f"This is a reminder for your NotToDo item '{nottodo.title}' starting at {nottodo.scheduled_start_time}."
-    send_mail(subject, message, 'noreply@example.com', [user.email])
+    send_mail(subject, message, 'dci-team-1@dci.com', [user.email])
