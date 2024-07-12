@@ -47,7 +47,7 @@ def check_and_send_reminders():
                     [nottodo.user.email],
                     fail_silently=False,
                 )
- # Log the email
+ # Log the email I have also created the functionality in the Admin interface 
                 EmailLog.objects.create(
                     nottodo=nottodo,
                     user=nottodo.user,
