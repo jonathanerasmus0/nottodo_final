@@ -28,3 +28,14 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
+
+class EmailLog(models.Model):
+    nottodo = models.ForeignKey(NotToDo, on_delete=models.CASCADE, related_name='email_logs')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    sent_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Email to {self.email} for {self.nottodo.title}"

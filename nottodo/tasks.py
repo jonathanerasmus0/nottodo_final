@@ -21,6 +21,16 @@ def send_nottodo_notifications():
             fail_silently=False,
         )
 
+ # Log the email
+        EmailLog.objects.create(
+            nottodo=nottodo,
+            user=nottodo.user,
+            email=email,
+            subject=subject,
+            message=message,
+            sent_at=timezone.now()
+        )
+
 @shared_task
 def check_and_send_reminders():
     now = timezone.now()
@@ -36,4 +46,13 @@ def check_and_send_reminders():
                     'joesaudi@hotmail.com',
                     [nottodo.user.email],
                     fail_silently=False,
+                )
+ # Log the email
+                EmailLog.objects.create(
+                    nottodo=nottodo,
+                    user=nottodo.user,
+                    email=email,
+                    subject=subject,
+                    message=message,
+                    sent_at=timezone.now()
                 )
