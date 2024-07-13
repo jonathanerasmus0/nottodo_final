@@ -14,7 +14,7 @@ def get_reminder_times(nottodo):
     elif nottodo.repeat == 'Weekly':
         delta = datetime.timedelta(weeks=1)
     elif nottodo.repeat == 'Monthly':
-        delta = datetime.timedelta(weeks=4)  # Approximation for simplicity
+        delta = datetime.timedelta(weeks=4)  # 4 weeks isnt necessarily a month , but keep to make it easier
 
     while current_time <= end_time:
         reminder_times.append(current_time)
