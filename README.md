@@ -111,8 +111,10 @@ redis-ping
 brew service start redis
 
 celery worker and beat scheduler
-celery -A nottodo_project worker -l info
-celery -A nottodo_project beat -l info
+celery -A nottodo_project worker -l info/*remember to add name of project*  celery -A nottodo_project worker -l info
+
+celery -A nottodo_project beat -l info/*remember to add name of project* celery -A nottodo_project beat -l info
+
 
 
 Part 1: Installing Redis on Ubuntu
