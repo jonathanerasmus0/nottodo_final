@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.utils import timezone
-from .models import NotToDo
+from .models import NotToDo, EmailLog
 from .utils import get_reminder_times
 from celery import shared_task
 
@@ -13,15 +13,19 @@ def send_nottodo_notifications():
         scheduled_start_time__gte=now
     )
     for nottodo in nottodos:
+        subject = 'Not To Do Reminder'
+        message = f'Remember not to do: {nottodo.title}'
+        email = nottodo.user.email
+
         send_mail(
-            'Not To Do Reminder',
-            f'Remember not to do: {nottodo.title}',
+            subject,
+            message,
             'joesaudi@hotmail.com',
-            [nottodo.user.email],
+            [email],
             fail_silently=False,
         )
 
- # Log the email
+        # Log the email
         EmailLog.objects.create(
             nottodo=nottodo,
             user=nottodo.user,
@@ -30,6 +34,10 @@ def send_nottodo_notifications():
             message=message,
             sent_at=timezone.now()
         )
+
+        # Print to console for verification
+        print(f"Sent email to {email} for NotToDo: {nottodo.title} at {timezone.now()}")
+        print("Email sent successfully!")
 
 @shared_task
 def check_and_send_reminders():
@@ -40,14 +48,19 @@ def check_and_send_reminders():
         reminder_times = get_reminder_times(nottodo)
         for reminder_time in reminder_times:
             if now >= reminder_time and now <= (reminder_time + timezone.timedelta(minutes=10)):
+                subject = 'Not To Do Reminder'
+                message = f'Remember not to do: {nottodo.title}'
+                email = nottodo.user.email
+
                 send_mail(
-                    'Not To Do Reminder',
-                    f'Remember not to do: {nottodo.title}',
+                    subject,
+                    message,
                     'joesaudi@hotmail.com',
-                    [nottodo.user.email],
+                    [email],
                     fail_silently=False,
                 )
- # Log the email I have also created the functionality in the Admin interface 
+
+                # Log the email
                 EmailLog.objects.create(
                     nottodo=nottodo,
                     user=nottodo.user,
@@ -56,3 +69,7 @@ def check_and_send_reminders():
                     message=message,
                     sent_at=timezone.now()
                 )
+
+                # Print to console for verification
+                print(f"Sent reminder email to {email} for NotToDo: {nottodo.title} at {timezone.now()}")
+                print("Reminder email sent successfully!")

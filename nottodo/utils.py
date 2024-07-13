@@ -9,16 +9,23 @@ def get_reminder_times(nottodo):
     end_time = nottodo.scheduled_end_time
     current_time = start_time
 
+    # Set default value for delta
+    delta = None
+
     if nottodo.repeat == 'Daily':
         delta = datetime.timedelta(days=1)
     elif nottodo.repeat == 'Weekly':
         delta = datetime.timedelta(weeks=1)
     elif nottodo.repeat == 'Monthly':
-        delta = datetime.timedelta(weeks=4)  # 4 weeks isnt necessarily a month , but keep to make it easier
+        delta = datetime.timedelta(weeks=4)  # 4 weeks isn't necessarily a month, but keep to make it easier
 
-    while current_time <= end_time:
-        reminder_times.append(current_time)
-        current_time += delta
+    # Ensure delta is set before using it
+    if delta is not None:
+        while current_time <= end_time:
+            reminder_times.append(current_time)
+            current_time += delta
+    else:
+        print(f"Warning: No valid repeat interval set for NotToDo item '{nottodo.title}'")
 
     return reminder_times
 
