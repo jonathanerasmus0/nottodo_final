@@ -9,7 +9,6 @@ def get_reminder_times(nottodo):
     end_time = nottodo.scheduled_end_time
     current_time = start_time
 
-    # Set default value for delta
     delta = None
 
     if nottodo.repeat == 'Daily':

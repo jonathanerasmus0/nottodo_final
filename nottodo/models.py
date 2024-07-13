@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 class NotToDo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -12,6 +13,10 @@ class NotToDo(models.Model):
     repeat = models.CharField(max_length=50, choices=[('None', 'None'), ('Daily', 'Daily'), ('Weekly', 'Weekly'), ('Monthly', 'Monthly')], default='None')
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        if self.repeat not in ['Daily', 'Weekly', 'Monthly', 'None']:
+            raise ValidationError('Invalid value for repeat. Must be "None", "Daily", "Weekly", or "Monthly".')
 
     def __str__(self):
         return self.title
