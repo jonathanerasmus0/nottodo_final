@@ -104,7 +104,7 @@ git commit -m "edit"
 git push heroku main
 ```
 
-#CELERY INSTRUCTIONS 
+# CELERY INSTRUCTIONS 
 start the server redis-server
 Install globally if needed brew install redis(apple only)
 redis-ping
@@ -150,17 +150,17 @@ This setup ensures you can track and verify that emails are being sent successfu
 
 
 ## Installing Redis on Ubuntu
-# Step 1: Update System Packages
+### Step 1: Update System Packages
 Before installing Redis, it’s a good idea to update your package lists:
  ```shell
 sudo apt update
 ```
-# Step 2: Install Redis
+### Step 2: Install Redis
 Install Redis by running the following command:
  ```shell
 sudo apt install redis-server
 ```
-# Step 3: Verify Redis Installation
+### Step 3: Verify Redis Installation
 Once installed, you can check that Redis is running with:
  ```shell
 redis-cli ping
