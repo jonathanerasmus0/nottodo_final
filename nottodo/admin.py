@@ -15,6 +15,6 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(EmailLog)
 class EmailLogAdmin(admin.ModelAdmin):
-    list_display = ('nottodo', 'user', 'email', 'subject', 'sent_at')
-    list_filter = ('sent_at',)
-    search_fields = ('email', 'subject')
+    list_display = ('nottodo', 'user', 'email', 'subject', 'sent_at', 'success', 'error_message')
+    list_filter = ('sent_at', 'success')
+    search_fields = ('email', 'subject', 'error_message')
