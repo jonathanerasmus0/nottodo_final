@@ -104,40 +104,65 @@ git commit -m "edit"
 git push heroku main
 ```
 
-CELERY INSTRUCTIONS 
+# CELERY INSTRUCTIONS 
 start the server redis-server
 Install globally if needed brew install redis(apple only)
 redis-ping
 brew service start redis
 
-celery worker and beat scheduler
-celery -A nottodo_project worker -l info/*remember to add name of project*  celery -A nottodo_project worker -l info
+## celery worker and beat scheduler
+ ```shell
+celery -A nottodo_project worker -l info
+```
+*remember to add name of project*
+ ```shell
+celery -A nottodo_project worker -l info
+```
 
-celery -A nottodo_project beat -l info/*remember to add name of project* celery -A nottodo_project beat -l info
+ ```shell
+celery -A nottodo_project beat -l info
+```
+*remember to add name of project* celery -A nottodo_project beat -l info
 
-NB: pip install django-celery-results *This should have already have been installed*
+NB: 
+
+ ```shell
+pip install django-celery-results
+```
+*This should have already have been installed*
+
+ ```shell
 python manage.py migrate django_celery_results
+```
 Monitor Celery Tasks
 Run the Celery worker and beat scheduler to monitor tasks:
+ ```shell
 celery -A nottodo_project worker --loglevel=info
+```
+
+ ```shell
 celery -A nottodo_project beat --loglevel=info
+```
 
 This setup ensures you can track and verify that emails are being sent successfully from your local development environment.
 
 
 
 
-Part 1: Installing Redis on Ubuntu
-Step 1: Update System Packages
+## Installing Redis on Ubuntu
+### Step 1: Update System Packages
 Before installing Redis, it’s a good idea to update your package lists:
-
+ ```shell
 sudo apt update
-Step 2: Install Redis
+```
+### Step 2: Install Redis
 Install Redis by running the following command:
-
+ ```shell
 sudo apt install redis-server
-Step 3: Verify Redis Installation
+```
+### Step 3: Verify Redis Installation
 Once installed, you can check that Redis is running with:
-
+ ```shell
 redis-cli ping
+```
 If Redis is running, it will return a PONG response.
