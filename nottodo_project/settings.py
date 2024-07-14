@@ -116,8 +116,7 @@ if not os.getenv('DJANGO_DEVELOPMENT'):
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = 'joesaudi@hotmail.com'
-    EMAIL_HOST_PASSWORD = 'Lancaster017!'
-
+    
 
 # Celery linked with the tasks.py / celery.py , celery init, utils.py
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
