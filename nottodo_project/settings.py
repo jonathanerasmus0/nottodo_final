@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'nottodo',
+    'django_celery_results',
 ]
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (

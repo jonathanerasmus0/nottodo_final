@@ -115,6 +115,16 @@ celery -A nottodo_project worker -l info/*remember to add name of project*  cele
 
 celery -A nottodo_project beat -l info/*remember to add name of project* celery -A nottodo_project beat -l info
 
+NB: pip install django-celery-results *This should have already have been installed*
+python manage.py migrate django_celery_results
+Monitor Celery Tasks
+Run the Celery worker and beat scheduler to monitor tasks:
+celery -A nottodo_project worker --loglevel=info
+celery -A nottodo_project beat --loglevel=info
+
+This setup ensures you can track and verify that emails are being sent successfully from your local development environment.
+
+
 
 
 Part 1: Installing Redis on Ubuntu
