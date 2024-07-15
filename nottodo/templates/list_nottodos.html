@@ -36,95 +36,95 @@
     <p>No Not To Dos found.</p>
     {% endfor %}
 </div>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      $('#calendar').fullCalendar({
-          events: '/nottodos/events/',
-          header: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'month,agendaWeek,agendaDay'
-          },
-          editable: true,
-          selectable: true,
-          eventRender: function(event, element) {
-              // Add specific class based on event context
-              if (event.context === 'Home') {
-                  element.addClass('context-home');
-              } else if (event.context === 'Work') {
-                  element.addClass('context-work');
-              } else if (event.context === 'Other') {
-                  element.addClass('context-other');
-              }
-          },
-          viewRender: function(view) {
-              var month = view.intervalStart.month();
-              calendarEl.classList.remove('calendar-winter', 'calendar-spring', 'calendar-summer', 'calendar-autumn');
-  
-              if (month == 11 || month == 0 || month == 1) {
-                  calendarEl.classList.add('calendar-winter');
-              } else if (month >= 2 && month <= 4) {
-                  calendarEl.classList.add('calendar-spring');
-              } else if (month >= 5 && month <= 7) {
-                  calendarEl.classList.add('calendar-summer');
-              } else if (month >= 8 && month <= 10) {
-                  calendarEl.classList.add('calendar-autumn');
-              }
-  
-              fetchHolidays(view.start, view.end);
-          }
-      });
-  
-      function fetchHolidays(start, end) {
-          var apiKey = 'FWtjtjyrqUlLiNe0GVP98HFvz8SteefC';
-          var country = 'DE';
-          var year = start.year();  // Ensure the year is correctly extracted
-          var url = `https://calendarific.com/api/v2/holidays?api_key=${apiKey}&country=${country}&year=${year}`;
-  
-          fetch(url)
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error('Network response was not ok ' + response.statusText);
-                  }
-                  return response.json();
-              })
-              .then(data => {
-                  if (data.response && data.response.holidays) {
-                      $('#calendar').fullCalendar('removeEvents', function(event) {
-                          return event.type === 'holiday';
-                      });
-  
-                      var holidays = data.response.holidays.map(holiday => ({
-                          title: holiday.name,
-                          start: holiday.date.iso,
-                          backgroundColor: 'red !important',
-                          borderColor: 'red !important',
-                          textColor: 'white !important',
-                          type: 'holiday'
-                      }));
-                      $('#calendar').fullCalendar('addEventSource', holidays);
-                  }
-              })
-              .catch(error => console.error('Error fetching holidays:', error));
-      }
-  
-      fetch('/nottodos/events/')
-          .then(response => response.json())
-          .then(data => {
-              var userEvents = data.map(event => ({
-                  title: event.title,
-                  start: event.start,
-                  end: event.end,
-                  context: event.context,
-                  type: 'user_selected'
-              }));
-              $('#calendar').fullCalendar('addEventSource', userEvents);
-          })
-          .catch(error => console.error('Error fetching user-selected events:', error));
-  });
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        $('#calendar').fullCalendar({
+            events: function(start, end, timezone, callback) {
+                fetch('/nottodos/events/')
+                    .then(response => response.json())
+                    .then(data => {
+                        callback(data);
+                    })
+                    .catch(error => console.error('Error fetching user-selected events:', error));
+            },
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: true,
+            selectable: true,
+            eventRender: function(event, element) {
+                // Add specific class based on event context
+                if (event.context === 'Home') {
+                    element.addClass('context-home');
+                } else if (event.context === 'Work') {
+                    element.addClass('context-work');
+                } else if (event.context === 'Other') {
+                    element.addClass('context-other');
+                }
+            },
+            viewRender: function(view) {
+                var month = view.intervalStart.month();
+                calendarEl.classList.remove('calendar-winter', 'calendar-spring', 'calendar-summer', 'calendar-autumn');
+                if (month == 11 || month == 0 || month == 1) {
+                    calendarEl.classList.add('calendar-winter');
+                } else if (month >= 2 && month <= 4) {
+                    calendarEl.classList.add('calendar-spring');
+                } else if (month >= 5 && month <= 7) {
+                    calendarEl.classList.add('calendar-summer');
+                } else if (month >= 8 && month <= 10) {
+                    calendarEl.classList.add('calendar-autumn');
+                }
+                fetchHolidays(view.start, view.end);
+            }
+        });
+        function fetchHolidays(start, end) {
+            var apiKey = 'FWtjtjyrqUlLiNe0GVP98HFvz8SteefC';
+            var country = 'DE';
+            var year = start.year();  // Ensure the year is correctly extracted
+            var url = `https://calendarific.com/api/v2/holidays?api_key=${apiKey}&country=${country}&year=${year}`;
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.response && data.response.holidays) {
+                        $('#calendar').fullCalendar('removeEvents', function(event) {
+                            return event.type === 'holiday';
+                        });
+                        var holidays = data.response.holidays.map(holiday => ({
+                            title: holiday.name,
+                            start: holiday.date.iso,
+                            backgroundColor: 'red !important',
+                            borderColor: 'red !important',
+                            textColor: 'white !important',
+                            type: 'holiday'
+                        }));
+                        $('#calendar').fullCalendar('addEventSource', holidays);
+                    }
+                })
+                .catch(error => console.error('Error fetching holidays:', error));
+        }
+    });
   </script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
 
 {% endblock %}
