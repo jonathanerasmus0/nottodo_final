@@ -12,6 +12,7 @@ distlib==0.3.8
 Django==5.0.6
 django-allauth==0.63.3
 django-celery-beat==2.6.0
+django-celery-results==2.5.1
 django-salmonella==1.2.1
 django-timezone-field==6.1.0
 django-unfold==0.29.1
