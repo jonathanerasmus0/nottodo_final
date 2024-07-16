@@ -6,6 +6,18 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: url('/static/pics/background.jpg');
+    background-size: cover;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5); /* Adjust transparency as needed */
+    z-index: -1; /* Ensure it stays behind all other content */
 }
 
 .navbar {
@@ -27,6 +39,7 @@ body {
     width: 250px;
     background-color: #eceff1;
     padding-top: 20px;
+    background: rgba(255, 255, 255, 0.5); /* Adjust transparency as needed */
 }
 
 .sidebar a {
@@ -49,7 +62,10 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow-y: auto; /* Make main content scrollable */
+    background: rgba(255, 255, 255, 0.5); /* Adjust transparency as needed */
 }
+
+
 
 .footer {
     background-color: #0079bf;
@@ -91,13 +107,12 @@ body {
     margin-top: -50px; /* Move the form up */
 }
 
-/* Styles for FullCalendar */
 #calendar {
     max-width: 600px; /* Reduce the width */
     height: 500px;    /* Reduce the height */
     position: fixed;
-    top: 100px;
-    right: 20px;
+    top: 150px; /* Move the calendar down */
+    right: 50px; /* Move the calendar to the right */
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
