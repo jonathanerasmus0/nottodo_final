@@ -101,6 +101,6 @@ CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:63
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
+CELERY_TIMEZONE = 'Europe/Berlin' # This now matches with the other settings which may have caused a conflict 
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
