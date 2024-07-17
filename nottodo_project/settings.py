@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-
+from tzlocal import get_localzone
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-%j*w)iqgv8)h1gpn8*b28hbe$w6fpz%28wp^8-l4p(&pq&s*s=')
@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'nottodo',
+    'django_celery_beat',
     'django_celery_results',
 ]
 SITE_ID = 1
@@ -37,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    
 ]
 ROOT_URLCONF = 'nottodo_project.urls'
 TEMPLATES = [
@@ -87,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC' # changed from USA to Europe CET Berlin time
+TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'
@@ -95,17 +97,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/profile/'
 # Email configuration for development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
-
-
 # Celery configuration
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Europe/Berlin' # This now matches with the other settings which may have caused a conflict 
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
 

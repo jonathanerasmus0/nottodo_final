@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from datetime import datetime
 from django.utils.timezone import make_aware
+from .models import NotToDo
 
 class NotToDoNotificationTestCase(TestCase):
 
@@ -122,3 +123,52 @@ class NotToDoTests(TestCase):
         self.assertEqual(copied_nottodo.scheduled_end_time, self.nottodo.scheduled_end_time)
         self.assertEqual(copied_nottodo.repeat, self.nottodo.repeat)
         self.assertNotEqual(copied_nottodo.id, self.nottodo.id)
+
+class TimeZoneTest(TestCase):
+
+    def setUp(self):
+        # Create a user for testing
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+    def test_nottodo_creation(self):
+        nottodo = NotToDo.objects.create(
+            user=self.user,
+            title='Test NotToDo',
+            scheduled_start_time=timezone.now() + timezone.timedelta(days=1)
+        )
+        self.assertEqual(nottodo.scheduled_start_time.tzinfo, timezone.utc)
+
+class TimeZoneTest(TestCase):
+
+    def setUp(self):
+        # Create a user for testing
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+    def test_nottodo_creation(self):
+        nottodo = NotToDo.objects.create(
+            user=self.user,
+            title='Test NotToDo',
+            scheduled_start_time=timezone.now() + timezone.timedelta(days=1)
+        )
+        self.assertEqual(nottodo.scheduled_start_time.tzinfo, timezone.now().tzinfo)
+
+class NotToDoModelTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+    def test_string_representation(self):
+        nottodo = NotToDo.objects.create(
+            user=self.user,
+            title='Test NotToDo',
+            scheduled_start_time=timezone.now() + timezone.timedelta(days=1)
+        )
+        self.assertEqual(str(nottodo), 'Test NotToDo')
+
+    def test_default_repeat_value(self):
+        nottodo = NotToDo.objects.create(
+            user=self.user,
+            title='Test NotToDo',
+            scheduled_start_time=timezone.now() + timezone.timedelta(days=1)
+        )
+        self.assertEqual(nottodo.repeat, 'None')

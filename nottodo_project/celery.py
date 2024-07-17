@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
+from django.conf import settings
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nottodo_project.settings')
 
@@ -15,3 +16,6 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute='*/1'),  # This is checked everyminute for now 
     },
 }
+app.autodiscover_tasks()
+app.conf.timezone = settings.TIME_ZONE
+app.conf.enable_utc = True
