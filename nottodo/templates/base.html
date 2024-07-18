@@ -111,8 +111,43 @@
           });
         });
     </script>
-     
-        
-      
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        function convertUTCToLocal(utcDate) {
+          return moment.utc(utcDate).tz('Europe/Brussels').format('YYYY-MM-DD HH:mm:ss');
+        }
+
+        // Fetch and render events from the server
+        function fetchAndRenderEvents() {
+          $.getJSON('/nottodo/events/', function(events) {
+            events.forEach(function(event) {
+              event.start = convertUTCToLocal(event.start);
+              if (event.end) {
+                event.end = convertUTCToLocal(event.end);
+              }
+              // Assuming your calendar library has a method to add events
+              $('#calendar').fullCalendar('renderEvent', event, true);
+            });
+          });
+        }
+
+        // Initialize FullCalendar
+        $('#calendar').fullCalendar({
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+          },
+          editable: true,
+          eventLimit: true, // allow "more" link when too many events
+          events: fetchAndRenderEvents
+        });
+
+        // Fetch and render events on page load
+        fetchAndRenderEvents();
+      });
+    </script>
 </body>
 </html>

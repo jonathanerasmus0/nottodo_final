@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+import pytz
 
 @login_required
 def add_nottodo(request):
@@ -176,12 +177,13 @@ def unshare_nottodo(request, pk):
 
 @login_required
 def nottodo_events(request):
+    user_timezone = pytz.timezone('Europe/Brussels')  # THis was changed 
     nottodos = NotToDo.objects.filter(user=request.user)
     events = []
 
     for nottodo in nottodos:
-        start = nottodo.scheduled_start_time
-        end = nottodo.scheduled_end_time
+        start = nottodo.scheduled_start_time.astimezone(user_timezone)
+        end = nottodo.scheduled_end_time.astimezone(user_timezone) if nottodo.scheduled_end_time else None
 
         if nottodo.repeat == 'Daily':
             current_start = start

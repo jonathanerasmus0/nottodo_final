@@ -166,3 +166,9 @@ Once installed, you can check that Redis is running with:
 redis-cli ping
 ```
 If Redis is running, it will return a PONG response.
+How to see the time of the celery worker:
+
+ps aux | grep 'celery worker'
+
+gmail. 
+ttce yivp isry eljx

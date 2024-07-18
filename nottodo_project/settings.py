@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-from tzlocal import get_localzone
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-%j*w)iqgv8)h1gpn8*b28hbe$w6fpz%28wp^8-l4p(&pq&s*s=')
@@ -60,20 +60,15 @@ WSGI_APPLICATION = 'nottodo_project.wsgi.application'
 # Database 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-'''DATABASES = {
-    'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'notodo'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'new_password'),
+        'NAME': os.getenv('DB_NAME', 'nottodo'),
+        'USER': os.getenv('DB_USER', 'jonathanerasmus0'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'Lancaster017!'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '5432'),
     }
-}'''
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -89,21 +84,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Brussels'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/profile/'
-# Email configuration for development
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email configuration for Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jonathanerasmusdavies43@gmail.com'
+EMAIL_HOST_PASSWORD = 'ttce yivp isry eljx'
+
 # Celery configuration
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE
-CELERY_ENABLE_UTC = True
+CELERY_TIMEZONE = 'Europe/Brussels'
+CELERY_ENABLE_UTC = False
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
