@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'nottodo',
     'django_celery_beat',
     'django_celery_results',
+    'schema_graph',
 ]
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
