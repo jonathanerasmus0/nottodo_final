@@ -52,9 +52,82 @@ Check if the packages are installed correctly.
 pip list
 ```
 
+# To install Celery and Redis for your project, follow these steps:
 
-## CELERY INSTRUCTIONS
+### Step 1: Install Redis
 
-## Installing Redis
+Redis is an in-memory data structure store used as a database, cache, and message broker. You need to install it on your system.
 
-## HEROKU deployment
+#### On Windows:
+
+1. **Download Redis** from [this link](https://github.com/microsoftarchive/redis/releases) (look for the latest `MSOpenTech` Redis release).
+2. **Extract the zip file** and run `redis-server.exe`.
+
+   Example:
+
+   ```shell
+   cd path\to\redis\folder
+   redis-server.exe
+   ```
+
+#### On macOS:
+
+1. **Use Homebrew** to install Redis.
+   ```shell
+   brew install redis
+   ```
+2. **Start Redis server.**
+   ```shell
+   brew services start redis
+   ```
+
+#### On Linux (Ubuntu):
+
+1. **Install Redis using apt.**
+   ```shell
+   sudo apt update
+   sudo apt install redis-server
+   ```
+2. **Verify Redis Installation**
+	Once installed, you can check that Redis is running with:
+	
+	```shell
+	redis-cli ping
+	```
+	
+	If Redis is running, it will return a PONG response.
+	
+3. **Start Redis server.**
+   ```shell
+   sudo systemctl start redis
+   ```
+
+### Step 2: Install Celery
+
+Celery is a distributed task queue that allows you to execute tasks asynchronously. To install Celery, follow these steps:
+
+1. **Activate your virtual environment** (if it's not already activated).
+   ```shell
+   # On Windows
+   venv\Scripts\activate
+
+   # On macOS and Linux
+   source venv/bin/activate
+   ```
+
+2. **Install Celery using pip.**
+   ```shell
+   pip install celery
+   ```
+
+3. **Monitor Celery Tasks.**
+	Run the Celery worker and beat scheduler to monitor tasks:
+
+   ```shell
+   celery -A nottodo_final worker --loglevel=info
+   ```
+   
+   ```shell
+   celery -A nottodo_project beat --loglevel=info
+   ```
+   
