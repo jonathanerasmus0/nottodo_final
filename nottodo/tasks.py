@@ -21,7 +21,7 @@ def send_nottodo_notifications():
         send_mail(
             subject,
             message,
-            'jonathanerasmusdavies43@gmail.com',
+            'not.todo.project.app@gmail.com',
             [email],
             fail_silently=False,
         )
@@ -56,7 +56,7 @@ def check_and_send_reminders():
                 send_mail(
                     subject,
                     message,
-                    'jonathanerasmusdavies43@gmail.com',
+                    'not.todo.project.app@gmail.com',
                     [email],
                     fail_silently=False,
                 )

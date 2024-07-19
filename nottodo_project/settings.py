@@ -96,8 +96,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jonathanerasmusdavies43@gmail.com'
-EMAIL_HOST_PASSWORD = 'ttce yivp isry eljx'
+EMAIL_HOST_USER = 'not.todo.project.app@gmail.com'
+EMAIL_HOST_PASSWORD = 'ecxl ktce ipvg emuh'
 
 # Celery configuration
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')

@@ -13,7 +13,7 @@ from celery.schedules import crontab
 app.conf.beat_schedule = {
     'send-reminders-every-minute': {
         'task': 'nottodo.tasks.check_and_send_reminders',
-        'schedule': crontab(minute='*/1'),  # This is checked everyminute for now 
+        'schedule': crontab(minute='*/5'),  # This is checked everyminute for now 
     },
 }
 app.autodiscover_tasks()
