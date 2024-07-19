@@ -88,7 +88,11 @@ Redis is an in-memory data structure store used as a database, cache, and messag
    sudo apt update
    sudo apt install redis-server
    ```
-2. **Verify Redis Installation**
+2. **Start Redis server.**
+   ```shell
+   sudo systemctl start redis
+   ```
+3. **Verify Redis Installation**
 	Once installed, you can check that Redis is running with:
 	
 	```shell
@@ -96,12 +100,8 @@ Redis is an in-memory data structure store used as a database, cache, and messag
 	```
 	
 	If Redis is running, it will return a PONG response.
-	
-3. **Start Redis server.**
-   ```shell
-   sudo systemctl start redis
-   ```
 
+ 
 ### Step 2: Install Celery
 
 Celery is a distributed task queue that allows you to execute tasks asynchronously. To install Celery, follow these steps:
