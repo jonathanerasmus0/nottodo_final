@@ -4,48 +4,49 @@
 Open a terminal.
 Navigate to the directory where you want to clone the repository.
 
-bash
-Copy code
+```shell
 cd path/to/your/directory
+```
+
 Clone the repository using git.
 
-bash
-Copy code
+```shell
 git clone https://github.com/jonathanerasmus0/nottodo_final.git
+```
 
 ## Step 2: Create a Virtual Environment
 Navigate to the project directory.
 
-bash
-Copy code
+```shell
 cd nottodo_final
+```
 
 Create a virtual environment. You can use venv, which is included with Python 3. You may need to specify the path to your Python executable.
 
-bash
-Copy code
+```shell
 python3 -m venv venv
+```
 
 ## Step 3: Activate the Virtual Environment
 
-bash
-Copy code
+```shell
 source venv/bin/activate
+```
 
 ## Step 4: Install the Requirements
 Ensure you are in the project directory and the virtual environment is activated.
 Install the dependencies listed in the requirements.txt file.
 
-bash
-Copy code
+```shell
 pip install -r requirements.txt
+```
 
 ## Step 5: Verify the Installation
 Check if the packages are installed correctly.
 
-bash
-Copy code
+```shell
 pip list
+```
 
 
 ## CELERY INSTRUCTIONS
