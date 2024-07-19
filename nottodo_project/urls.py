@@ -7,5 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('nottodo.urls')),
-    path('schema/$', Schema.as_view()),
+    path('schema/', Schema.as_view()),
 ]
