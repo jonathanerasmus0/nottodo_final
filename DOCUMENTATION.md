@@ -124,7 +124,7 @@ Celery is a distributed task queue that allows you to execute tasks asynchronous
 	Run the Celery worker and beat scheduler to monitor tasks:
 
    ```shell
-   celery -A nottodo_final worker --loglevel=info
+   celery -A nottodo_project worker --loglevel=info
    ```
    
    ```shell
