@@ -12,3 +12,4 @@ This application was developed as a final project during a one year Python Cours
 - Jonathan Davies    https://github.com/jonathanerasmus0,
 
 - Pawel Suchocki  https://github.com/suchockipawel
+# nottodo
